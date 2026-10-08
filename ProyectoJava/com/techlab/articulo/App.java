@@ -8,42 +8,13 @@ import com.techlab.articulo.model.ArticuloAlimenticio;
 import com.techlab.articulo.model.ArticuloElectronico;
 import com.techlab.articulo.model.Categoria;
 
-/*
- * CLASE 4 - HERENCIA, POLIMORFISMO Y TOSTRING
- * --------------------------------------------------
- * OBJETIVO DIDÁCTICO:
- * Hasta la clase anterior, existía una sola clase Articulo.
- *
- * Ahora vamos a modelar una situación más real:
- * no todos los artículos son iguales.
- *
- * Por eso vamos a trabajar con:
- * - una clase abstracta Articulo
- * - una clase ArticuloElectronico
- * - una clase ArticuloAlimenticio
- *
- * ¿Qué queremos enseñar en esta etapa?
- * 1) Qué es una clase abstracta
- * 2) Qué significa heredar
- * 3) Qué es el polimorfismo
- * 4) Cómo una misma lista puede guardar distintos subtipos
- * 5) Qué papel cumple toString()
- * 6) Cómo complementar toString() con métodos específicos
- *
- * IMPORTANTE:
- * En esta etapa todavía NO usamos interfaz ni generics.
- * Primero queremos fijar muy bien herencia y polimorfismo.
- */
+
 public class App {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        // La lista está declarada como ArrayList<Articulo>.
-        // Esto es muy importante.
-        // Significa que la lista puede guardar cualquier objeto cuyo tipo sea Articulo
-        // o cualquier clase hija de Articulo.
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         ArrayList<Categoria> categorias = new ArrayList<>();
@@ -97,12 +68,6 @@ public class App {
         scanner.close();
     }
 
-    /*
-     * MÉTODO: precargarCategorias
-     * --------------------------------------------------
-     * Seguimos usando categorías precargadas para no sumar todavía
-     * el CRUD de categorías.
-     */
     public static void precargarCategorias(ArrayList<Categoria> categorias) {
         categorias.add(new Categoria(1, "Electrónica", "Productos tecnológicos y electrónicos"));
         categorias.add(new Categoria(2, "Periféricos", "Accesorios para computadora"));
@@ -110,18 +75,6 @@ public class App {
         categorias.add(new Categoria(4, "Limpieza", "Artículos de limpieza del hogar"));
     }
 
-    /*
-     * MÉTODO: ingresarArticulo
-     * --------------------------------------------------
-     * Ahora el usuario debe elegir qué tipo de artículo quiere crear.
-     *
-     * Según la elección:
-     * - si es electrónico -> creamos ArticuloElectronico
-     * - si es alimenticio -> creamos ArticuloAlimenticio
-     *
-     * Ambos objetos se guardan en la misma lista ArrayList<Articulo>.
-     * Eso es polimorfismo.
-     */
     public static void ingresarArticulo(
             Scanner scanner,
             ArrayList<Articulo> articulos,
@@ -177,16 +130,7 @@ public class App {
         System.out.println(articulo);
     }
 
-    /*
-     * MÉTODO: listarArticulos
-     * --------------------------------------------------
-     * Acá aparece una de las grandes ventajas de toString().
-     *
-     * Aunque la lista guarda distintos subtipos,
-     * podemos imprimir cada objeto directamente.
-     *
-     * Java llamará al toString() del objeto real almacenado.
-     */
+    
     public static void listarArticulos(ArrayList<Articulo> articulos) {
         System.out.println("\n--- LISTADO DE ARTÍCULOS ---");
 
@@ -203,24 +147,10 @@ public class App {
                // articulo.nroTelMesaDeAyudaParaReclamos();
             }
            
-
-            // Además, mostramos un detalle específico usando un método concreto.
-            // Esto permite explicar que toString() no reemplaza todo:
-            // muchas veces también tendremos métodos específicos del dominio.
-           /* System.out.println("Detalle específico: " + articulo.getDetalleEspecifico());
-            System.out.println("--------------------------------------------");*/ 
         }
     }
 
-    /*
-     * MÉTODO: consultarArticulo
-     * --------------------------------------------------
-     * Busca un artículo por código y luego lo muestra.
-     *
-     * También se aprovecha para explicar:
-     * - el uso de toString()
-     * - la posibilidad de consultar métodos específicos
-     */
+   
     public static void consultarArticulo(Scanner scanner, ArrayList<Articulo> articulos) {
         System.out.println("\n--- CONSULTAR ARTÍCULO ---");
 
@@ -243,21 +173,6 @@ public class App {
         System.out.println("Detalle específico: " + articulo.getDetalleEspecifico());
     }
 
-    /*
-     * MÉTODO: modificarArticulo
-     * --------------------------------------------------
-     * Permite modificar los datos comunes a todos los artículos:
-     * - nombre
-     * - precio
-     * - categoría
-     *
-     * Y además modifica los datos específicos según el subtipo.
-     *
-     * Para eso usamos instanceof.
-     *
-     * instanceof permite preguntar:
-     * "¿Este objeto es de este tipo concreto?"
-     */
     public static void modificarArticulo(
             Scanner scanner,
             ArrayList<Articulo> articulos,
@@ -308,11 +223,7 @@ public class App {
         System.out.println("Artículo modificado correctamente.");
     }
 
-    /*
-     * MÉTODO: eliminarArticulo
-     * --------------------------------------------------
-     * Elimina un artículo por código.
-     */
+
     public static void eliminarArticulo(Scanner scanner, ArrayList<Articulo> articulos) {
         System.out.println("\n--- ELIMINAR ARTÍCULO ---");
 
@@ -334,11 +245,6 @@ public class App {
         System.out.println("Artículo eliminado correctamente.");
     }
 
-    /*
-     * MÉTODO: listarCategorias
-     * --------------------------------------------------
-     * Muestra las categorías disponibles.
-     */
     public static void listarCategorias(ArrayList<Categoria> categorias) {
         System.out.println("\n--- CATEGORÍAS DISPONIBLES ---");
 
@@ -347,11 +253,6 @@ public class App {
         }
     }
 
-    /*
-     * MÉTODO: pedirCategoriaExistente
-     * --------------------------------------------------
-     * Obliga al usuario a elegir una categoría válida.
-     */
     public static Categoria pedirCategoriaExistente(Scanner scanner, ArrayList<Categoria> categorias) {
         while (true) {
             int codigoCategoria = leerEntero(scanner, "Ingrese el código de la categoría: ");
@@ -366,11 +267,6 @@ public class App {
         }
     }
 
-    /*
-     * MÉTODO: buscarArticuloPorCodigo
-     * --------------------------------------------------
-     * Recorre la lista y devuelve el objeto cuyo código coincida.
-     */
     public static Articulo buscarArticuloPorCodigo(ArrayList<Articulo> articulos, int codigo) {
         for (Articulo articulo : articulos) {
             if (articulo.getCodigo() == codigo) {
@@ -380,11 +276,6 @@ public class App {
         return null;
     }
 
-    /*
-     * MÉTODO: buscarCategoriaPorCodigo
-     * --------------------------------------------------
-     * Recorre la lista de categorías y devuelve la coincidente.
-     */
     public static Categoria buscarCategoriaPorCodigo(ArrayList<Categoria> categorias, int codigo) {
         for (Categoria categoria : categorias) {
             if (categoria.getCodigo() == codigo) {
@@ -394,11 +285,6 @@ public class App {
         return null;
     }
 
-    /*
-     * MÉTODO: leerEntero
-     * --------------------------------------------------
-     * Lee enteros de forma segura.
-     */
     public static int leerEntero(Scanner scanner, String mensaje) {
         while (true) {
             try {
@@ -410,11 +296,6 @@ public class App {
         }
     }
 
-    /*
-     * MÉTODO: leerEnteroNoNegativo
-     * --------------------------------------------------
-     * Lee enteros y además valida que no sean negativos.
-     */
     public static int leerEnteroNoNegativo(Scanner scanner, String mensaje) {
         while (true) {
             int valor = leerEntero(scanner, mensaje);
@@ -428,11 +309,6 @@ public class App {
         }
     }
 
-    /*
-     * MÉTODO: leerDoubleNoNegativo
-     * --------------------------------------------------
-     * Lee un número decimal y valida que no sea negativo.
-     */
     public static double leerDoubleNoNegativo(Scanner scanner, String mensaje) {
         while (true) {
             try {
@@ -451,11 +327,6 @@ public class App {
         }
     }
 
-    /*
-     * MÉTODO: leerTextoNoVacio
-     * --------------------------------------------------
-     * Obliga a ingresar un texto no vacío.
-     */
     public static String leerTextoNoVacio(Scanner scanner, String mensaje) {
         while (true) {
             System.out.print(mensaje);
